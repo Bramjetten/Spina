@@ -38,7 +38,7 @@ module Spina
 
         bootstrap_navigations(theme_config)
         bootstrap_pages(theme_config)
-        bootstrap_resources(theme_config)
+        bootstrap_page_collections(theme_config)
       end
     end
 
@@ -54,9 +54,9 @@ module Spina
       activate_used_view_templates(theme)
     end
 
-    def bootstrap_resources(theme)
-      theme.resources.each do |resource|
-        Resource.where(name: resource[:name]).first_or_create.update(resource)
+    def bootstrap_page_collections(theme)
+      theme.page_collections.each do |page_collection|
+        PageCollection.where(name: page_collection[:name]).first_or_create.update(page_collection)
       end
     end
 

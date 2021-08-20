@@ -6,7 +6,7 @@ module Spina::Api
     
     attribute(:content) { |page| page_content(page) }
     
-    belongs_to :resource
+    belongs_to :page_collection
 
     class << self
       

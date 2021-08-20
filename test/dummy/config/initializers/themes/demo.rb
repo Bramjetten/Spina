@@ -2,7 +2,7 @@
 
   theme.name = 'demo'
   theme.title = 'Demo theme'
-  theme.resources = [
+  theme.page_collections = [
     {name: "landing_pages", label: "Landing pages"}, 
     {name: "blog", label: "Blog"}, 
   ]

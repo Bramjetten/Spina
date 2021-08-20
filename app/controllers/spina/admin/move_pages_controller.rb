@@ -16,7 +16,7 @@ module Spina
       private
       
         def page_params
-          params.require(:page).permit(:parent_id, :resource_id)
+          params.require(:page).permit(:parent_id, :page_collection_id)
         end
       
     end

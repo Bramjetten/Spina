@@ -8,11 +8,10 @@ module Spina
       def index
         add_breadcrumb I18n.t('spina.website.pages'), spina.admin_pages_path
         
-        
-        if params[:resource_id]
-          @resource = Resource.find(params[:resource_id])
-          @page_templates = Spina::Current.theme.new_page_templates(recommended: @resource.view_template)
-          @pages = @resource.pages.active.roots.includes(:translations)
+        if params[:page_collection_id]
+          @page_collection = PageCollection.find(params[:page_collection_id])
+          @page_templates = Spina::Current.theme.new_page_templates(recommended: @page_collection.view_template)
+          @pages = @page_collection.pages.active.roots.includes(:translations)
         else
           @pages = Page.active.sorted.roots.main.includes(:translations)
           @page_templates = Spina::Current.theme.new_page_templates
@@ -20,8 +19,8 @@ module Spina
       end
 
       def new
-        resource = Resource.find_by(id: params[:resource_id])
-        @page = Page.new(view_template: params[:view_template], resource: resource)
+        page_collection = PageCollection.find_by(id: params[:page_collection_id])
+        @page = Page.new(view_template: params[:view_template], page_collection: page_collection)
       end
 
       def create
@@ -95,8 +94,8 @@ module Spina
   
         def add_index_breadcrumb
           path = spina.admin_pages_path
-          if @page.resource
-            path = spina.admin_pages_path(resource_id: @page.resource_id)
+          if @page.page_collection
+            path = spina.admin_pages_path(page_collection_id: @page.page_collection_id)
           end
           
           add_breadcrumb t('spina.website.pages'), path, class: 'text-gray-400'

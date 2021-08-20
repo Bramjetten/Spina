@@ -2,8 +2,8 @@ module Spina::Admin
   class ParentPagesController < AdminController
     
     def index
-      @resource = Spina::Resource.find_by(id: params[:resource_id])
-      @pages = Spina::Page.where(resource: @resource).sorted.includes(:translations)
+      @page_collection = Spina::PageCollection.find_by(id: params[:page_collection_id])
+      @pages = Spina::Page.where(page_collection: @page_collection).sorted.includes(:translations)
     end
     
   end

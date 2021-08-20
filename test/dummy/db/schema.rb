@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_08_191444) do
+ActiveRecord::Schema.define(version: 2021_08_20_071331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,18 @@ ActiveRecord::Schema.define(version: 2021_01_08_191444) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "spina_page_collections", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "label"
+    t.string "view_template"
+    t.integer "parent_page_id"
+    t.string "order_by"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "slug"
+    t.index ["parent_page_id"], name: "index_spina_page_collections_on_parent_page_id"
+  end
+
   create_table "spina_page_parts", id: :serial, force: :cascade do |t|
     t.string "title"
     t.string "name"
@@ -190,21 +202,9 @@ ActiveRecord::Schema.define(version: 2021_01_08_191444) do
     t.string "ancestry"
     t.integer "position"
     t.boolean "active", default: true
-    t.integer "resource_id"
+    t.integer "page_collection_id"
     t.jsonb "json_attributes"
-    t.index ["resource_id"], name: "index_spina_pages_on_resource_id"
-  end
-
-  create_table "spina_resources", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "label"
-    t.string "view_template"
-    t.integer "parent_page_id"
-    t.string "order_by"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "slug"
-    t.index ["parent_page_id"], name: "index_spina_resources_on_parent_page_id"
+    t.index ["page_collection_id"], name: "index_spina_pages_on_page_collection_id"
   end
 
   create_table "spina_rewrite_rules", id: :serial, force: :cascade do |t|

@@ -16,19 +16,28 @@ module Spina
     has_many :navigation_items, dependent: :destroy
     has_many :navigations, through: :navigation_items
 
-    # Pages can belong to a resource
-    belongs_to :resource, optional: true
+    # Pages can belong to a page collection
+    belongs_to :page_collection, optional: true
+    
+    # PageCollection used to be called Resource
+    # This is still here for backwards compatibility, but you shouldn't use it.
+    belongs_to :resource, foreign_key: :page_collection_id, optional: true
 
-    scope :main, -> { where(resource_id: nil) }    
-    scope :regular_pages, ->  { main }
-    scope :resource_pages, -> { where.not(resource: nil) }
-    scope :active, -> { where(active: true) }
+    scope :main, -> { where(page_collection: nil) }
+    scope :page_collection_pages, -> { where.not(page_collection: nil) }
     scope :sorted, -> { order(:position) }
+    scope :active, -> { where(active: true) }
     scope :live, -> { active.where(draft: false) }
     scope :in_menu, -> { where(show_in_menu: true) }
+    
+    class << self
+      alias main_collection main
+      alias regular_pages main
+      alias resource_pages page_collection_pages
+    end
 
-    # Copy resource from parent
-    before_save :set_resource_from_parent, if: -> { parent.present? }
+    # Copy page collection from parent
+    before_save :set_page_collection_from_parent, if: -> { parent.present? }
 
     # Save children to update all materialized_paths
     after_save :save_children
@@ -103,8 +112,8 @@ module Spina
 
     private
 
-      def set_resource_from_parent
-        self.resource_id = parent.resource_id
+      def set_page_collection_from_parent
+        self.page_collection_id = parent.page_collection_id
       end
 
       def touch_navigations
@@ -124,7 +133,7 @@ module Spina
       end
 
       def generate_materialized_path
-        path_fragments = [resource&.slug]
+        path_fragments = [page_collection&.slug]
         path_fragments.append *ancestors.collect(&:slug)
         path_fragments.append(slug) unless homepage?
         path_fragments.compact.map(&:parameterize).join('/')

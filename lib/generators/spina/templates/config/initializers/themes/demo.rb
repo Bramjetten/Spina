@@ -60,10 +60,10 @@ Spina::Theme.register do |theme|
   # You only have to reference the name of the parts you want to have here.
   theme.layout_parts = []
   
-  # Resources (optional)
-  # Think of resources as a collection of pages. They are managed separately in Spina
+  # Page collections (optional)
+  # Page collections are managed separately in Spina
   # allowing you to separate these pages from the 'main' collection of pages.
-  theme.resources = [
+  theme.page_collections = [
     {name: 'articles', label: "Articles", view_template: "article", slug: "articles"}
   ]
 

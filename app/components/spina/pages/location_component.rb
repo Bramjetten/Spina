@@ -7,22 +7,22 @@ module Spina::Pages
       @page = page
     end
     
-    def resources
-      [main_collection_option] + Spina::Resource.order(:label).map do |resource|
-        [ resource.label, resource.id, data: {
-          parent_pages_url:  helpers.spina.admin_parent_pages_path(resource_id: resource.id)
+    def page_collections
+      [main_collection_option] + Spina::PageCollection.order(:label).map do |page_collection|
+        [ page_collection.label, page_collection.id, data: {
+          parent_pages_url:  helpers.spina.admin_parent_pages_path(page_collection_id: page_collection.id)
         }]
       end
     end
     
     def main_collection_option
-      [t('spina.pages.main_collection'), nil, data: {
+      [t('spina.website.pages'), nil, data: {
           parent_pages_url: helpers.spina.admin_parent_pages_path
         }]
     end
     
     def default_parent_pages_path
-      helpers.spina.admin_parent_pages_path(resource_id: @page&.resource_id, parent_id: @page&.parent_id, page_id: @page&.id)
+      helpers.spina.admin_parent_pages_path(page_collection_id: @page&.page_collection_id, parent_id: @page&.parent_id, page_id: @page&.id)
     end
     
   end
