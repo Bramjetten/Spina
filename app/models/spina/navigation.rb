@@ -6,7 +6,7 @@ module Spina
     scope :sorted, -> { order(:position) }
 
     validates :name, :label, presence: true
-    validates :name, uniqueness: true
+    validates_account_uniqueness_of :name
 
     def cache_key
       super + "_" + Mobility.locale.to_s

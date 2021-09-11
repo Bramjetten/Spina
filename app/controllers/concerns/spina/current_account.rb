@@ -10,6 +10,7 @@ module Spina
     private
     
       def current_account
+        Rails.logger.info "LOL FIRST ACC"
         Spina::Current.account ||= ::Spina::Account.first
       end
         

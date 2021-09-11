@@ -6,7 +6,8 @@ module Spina
     has_secure_token :password_reset_token
 
     validates :name, presence: true
-    validates :email, uniqueness: true, presence: true, format: { with:/\A[^@]+@[^@]+\z/ }
+    validates :email, presence: true, format: { with:/\A[^@]+@[^@]+\z/ }
+    validates_account_uniqueness_of :email
 
     def admin?
       admin
