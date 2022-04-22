@@ -60,7 +60,18 @@ Spina::Theme.register do |theme|
     name: 'testrepeater',
     title: 'Testrepeater',
     part_type: "Spina::Parts::Repeater",
-    parts: %w(line body)
+    parts: %w(line body page)
+  }, {
+    name: 'page',
+    title: 'Page',
+    part_type: "Spina::Parts::Page"
+  }, {
+    name: 'blogpage',
+    title: "Blogpost",
+    part_type: "Spina::Parts::Page",
+    options: {
+      resource: "blog"
+    }
   }]
 
   theme.view_templates = [{
@@ -72,7 +83,7 @@ Spina::Theme.register do |theme|
     title: 'Simple page',
     description: "Default layout",
     usage: 'Use for your content',
-    parts: ['body', 'testrepeater']
+    parts: ['body', 'testrepeater', 'page', 'blogpage']
   }, {
     name: 'demo',
     title: 'Demo',

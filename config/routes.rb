@@ -53,6 +53,7 @@ Spina::Engine.routes.draw do
 
       post :sort, on: :collection
     end
+    resources :search_pages
     resources :page_translations, only: [:destroy]
     resources :parent_pages
     resource :layout, controller: :layout, only: [:edit, :update]

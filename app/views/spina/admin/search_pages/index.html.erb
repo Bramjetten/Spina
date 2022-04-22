@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "search_pages_#{@pages.current_page}" do %>
+  <% if @pages.current_page == 1 && @pages.none? %> 
+    <div class="px-4 italic text-sm text-gray-500 py-2">Geen pagina gevonden</div>
+  <% end %>
+  
+  <% @pages.each do |page| %>
+    <div class="px-4 py-2 cursor-pointer hover:bg-gray-100 text-sm font-medium">
+      <%= page.menu_title %>
+    </div>
+  <% end %>
+  
+  <% if @pages.next_page %>
+    <%= turbo_frame_tag "search_pages_#{@pages.next_page}", data: {action: "turbo:frame-load->infinite-scroll#load"} do %>
+      <%= link_to_next_page @pages, "Next", class: "", data: {infinite_scroll_target: "button"} %>
+    <% end %>
+  <% end %>
+<% end %>
