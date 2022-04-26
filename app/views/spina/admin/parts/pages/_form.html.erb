@@ -1,21 +1,16 @@
 <div class="mt-6">
   <label class="block text-sm leading-5 font-medium text-gray-700"><%= f.object.title %></label>
   <div class="text-gray-400 text-sm"><%= f.object.hint %></div>
-  <div class="mt-1">
-    <%= f.select :page_id, Spina::Page.where(resource_id: f.object.resource&.id).includes(:translations).map{|p| [p.menu_title, p.id]}, {include_blank: "Choose page"}, class: 'form-select w-64', data: {controller: "select-placeholder", action: "select-placeholder#update"} %>
+  <div class="mt-1">    
+    <div class="bg-white w-64 shadow-lg rounded-t-md relative">
+      <%= form_with url: spina.admin_search_pages_path, method: :get, class: "p-2", data: {turbo_frame: :search_pages_1, controller: "form"} do |ff| %>
+        <%= ff.hidden_field :resource_id, value: f.object.resource&.id %>
+        <%= ff.text_field :query, class: 'form-input w-full text-sm', placeholder: "Zoek naar pagina", data: {action: "form#requestSubmit"} %>
+      <% end %>
     
-    <div>
-      <%= f.text_field :page_id %>
-      
-      <div class="bg-white w-64 shadow-lg border border-gray-200 rounded-md">
-        <%= form_with url: spina.admin_search_pages_path, method: :get, class: "p-2", data: {turbo_frame: :search_pages_1, controller: "form"} do |f| %>
-          <%= f.text_field :query, class: 'form-input w-full text-sm', placeholder: "Zoek naar pagina", data: {action: "form#requestSubmit"} %>
+      <div class="overflow-scroll absolute bg-white w-full rounded-b-md shadow-lg border-t-0 z-10" style="max-height: 160px" data-controller="infinite-scroll" data-infinite-scroll-target="container">
+        <%= turbo_frame_tag :search_pages_1 do %>
         <% end %>
-      
-        <div class="overflow-scroll" style="max-height: 160px" data-controller="infinite-scroll" data-infinite-scroll-target="container">
-          <%= turbo_frame_tag :search_pages_1 do %>
-          <% end %>
-        </div>
       </div>
     </div>
   </div>

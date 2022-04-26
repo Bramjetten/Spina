@@ -2342,6 +2342,16 @@ trix-editor [data-trix-mutable]::selection,
   border-bottom-left-radius: 0.5rem;
 }
 
+.rounded-b-md {
+  border-bottom-right-radius: 0.375rem;
+  border-bottom-left-radius: 0.375rem;
+}
+
+.rounded-t-md {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -2372,6 +2382,10 @@ trix-editor [data-trix-mutable]::selection,
 
 .border-b-0 {
   border-bottom-width: 0px;
+}
+
+.border-t-0 {
+  border-top-width: 0px;
 }
 
 .border-dashed {
